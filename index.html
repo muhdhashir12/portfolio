@@ -1,11 +1,708 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my portfolio - hashir</title>
-</head>
-<body>
+    <title>HASHIR — Driver & Automotive Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#080808',
+                        charcoal: '#151515',
+                        charcoalLight: '#1f1f1f',
+                        warmWhite: '#F5F5F0',
+                        mutedGray: '#999999',
+                        racingRed: '#E63932',
+                        racingRedHover: '#c52d27'
+                    },
+                    fontFamily: {
+                        condensed: ['"Barlow Condensed"', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Automotive Grain & Styling */
+        body {
+            background-color: #080808;
+            color: #F5F5F0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .heading-font {
+            font-family: 'Barlow Condensed', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* Subtle Background Vignette & Grid */
+        .hero-bg {
+            background: linear-gradient(180deg, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.85) 75%, #080808 100%),
+                        url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
+        }
+
+        .about-bg {
+            background: radial-gradient(circle at top right, rgba(230, 57, 50, 0.05) 0%, transparent 50%),
+                        linear-gradient(180deg, #080808 0%, #151515 100%);
+        }
+
+        .glass-nav {
+            background: rgba(8, 8, 8, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .custom-card {
+            background: #151515;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .custom-card:hover {
+            border-color: rgba(230, 57, 50, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(230, 57, 50, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080808;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #252525;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E63932;
+        }
+    </style>
+</head>
+<body class="bg-obsidian text-warmWhite antialiased selection:bg-racingRed selection:text-white">
+
+    <!-- Notification Modal / Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-32 opacity-0 transition-all duration-300 bg-charcoal border border-racingRed text-warmWhite px-6 py-4 rounded-lg shadow-2xl flex items-center space-x-3">
+        <i class="fa-solid fa-circle-check text-racingRed text-xl"></i>
+        <div>
+            <h4 class="font-bold heading-font text-lg tracking-wider">SUCCESS</h4>
+            <p id="toast-msg" class="text-xs text-mutedGray">Message transmitted successfully.</p>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-40 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo / Wordmark -->
+            <a href="#home" class="flex items-center space-x-2 group">
+                <span class="text-3xl font-black tracking-widest heading-font text-warmWhite group-hover:text-racingRed transition-colors">
+                    HASHIR<span class="text-racingRed">.</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wider uppercase text-mutedGray">
+                <a href="#home" class="hover:text-warmWhite transition-colors">Home</a>
+                <a href="#about" class="hover:text-warmWhite transition-colors">About</a>
+                <a href="#driving" class="hover:text-warmWhite transition-colors">Driving</a>
+                <a href="#hobbies" class="hover:text-warmWhite transition-colors">Hobbies</a>
+                <a href="#gallery" class="hover:text-warmWhite transition-colors">Gallery</a>
+                <a href="#contact" class="hover:text-warmWhite transition-colors">Contact</a>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="hidden md:block">
+                <a href="#contact" class="relative group overflow-hidden border border-racingRed px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-warmWhite transition-all duration-300 inline-block">
+                    <span class="absolute inset-0 bg-racingRed w-full h-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
+                    <span class="relative z-10">Let's Connect</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="menu-btn" class="md:hidden text-warmWhite text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-charcoal border-b border-white/10 px-6 py-6 space-y-4">
+            <a href="#home" class="block text-sm font-medium tracking-wider uppercase text-mutedGray hover:text-warmWhite mobile-link">Home</a>
+            <a href="#about" class="block text-sm font-medium tracking-wider uppercase text-mutedGray hover:text-warmWhite mobile-link">About</a>
+            <a href="#driving" class="block text-sm font-medium tracking-wider uppercase text-mutedGray hover:text-warmWhite mobile-link">Driving</a>
+            <a href="#hobbies" class="block text-sm font-medium tracking-wider uppercase text-mutedGray hover:text-warmWhite mobile-link">Hobbies</a>
+            <a href="#gallery" class="block text-sm font-medium tracking-wider uppercase text-mutedGray hover:text-warmWhite mobile-link">Gallery</a>
+            <a href="#contact" class="block text-sm font-medium tracking-wider uppercase text-mutedGray hover:text-warmWhite mobile-link">Contact</a>
+            <div class="pt-2">
+                <a href="#contact" class="w-full text-center block bg-racingRed text-warmWhite px-6 py-3 text-xs font-bold uppercase tracking-widest mobile-link">Let's Connect</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen hero-bg flex items-center pt-20">
+        <!-- Subtle Grid Overlay -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 py-24 w-full relative z-10 flex flex-col justify-center min-h-[85vh]">
+            <!-- Small Label -->
+            <div class="flex items-center space-x-3 mb-4">
+                <span class="w-8 h-[2px] bg-racingRed"></span>
+                <span class="text-xs uppercase font-bold tracking-[0.25em] text-mutedGray">DRIVER • AUTOMOTIVE ENTHUSIAST</span>
+            </div>
+
+            <!-- Huge Headline -->
+            <h1 class="text-6xl sm:text-8xl md:text-9xl font-black heading-font tracking-tight uppercase leading-[0.9] max-w-5xl mb-6">
+                HASHIR <span class="text-transparent" style="-webkit-text-stroke: 2px #F5F5F0;">— BUILT</span> FOR THE DRIVE.
+            </h1>
+
+            <!-- Supporting Text -->
+            <p class="text-lg md:text-xl text-mutedGray max-w-xl mb-10 font-light leading-relaxed">
+                Driven by passion. Inspired by speed. Connected to the road. Exploring the visceral boundary between machine, driver, and kinetic freedom.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-5">
+                <a href="#driving" class="bg-racingRed hover:bg-racingRedHover text-warmWhite px-8 py-4 text-xs font-bold uppercase tracking-widest text-center transition-all shadow-lg shadow-racingRed/20 flex items-center justify-center space-x-3 group">
+                    <span>Explore My World</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#contact" class="border border-white/20 hover:border-warmWhite text-warmWhite px-8 py-4 text-xs font-bold uppercase tracking-widest text-center transition-all flex items-center justify-center">
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center space-y-2 opacity-60 hover:opacity-100 transition-opacity">
+            <span class="text-[10px] tracking-[0.3em] uppercase text-mutedGray">Scroll Down</span>
+            <div class="w-[1px] h-10 bg-gradient-to-b from-warmWhite to-transparent animate-pulse"></div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="about-bg py-28 border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                
+                <!-- Left Text Column -->
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-8 h-[2px] bg-racingRed"></span>
+                        <span class="text-xs uppercase font-bold tracking-[0.25em] text-mutedGray">THE DRIVER PROFILE</span>
+                    </div>
+
+                    <h2 class="text-4xl sm:text-6xl font-black heading-font uppercase tracking-wide leading-none">
+                        MORE THAN JUST <br><span class="text-racingRed">THE DRIVE.</span>
+                    </h2>
+
+                    <div class="space-y-4 text-mutedGray text-base sm:text-lg font-light leading-relaxed">
+                        <p>
+                            I am <strong class="text-warmWhite font-medium">Hashir</strong>, a dedicated driver and automotive enthusiast whose life revolves around the pulse of high-performance engines, precision control, and raw mechanical feedback.
+                        </p>
+                        <p>
+                            My driving identity spans two distinct realms of automotive passion: the calculated precision and tire-smoking aggression of <strong class="text-warmWhite font-medium">drifting</strong>, alongside the raw, unfiltered adrenaline of <strong class="text-warmWhite font-medium">fast driving</strong> on open stretches. When tarmac ends, the adventure continues in the grit of <strong class="text-warmWhite font-medium">mud racing</strong>.
+                        </p>
+                        <p>
+                            Away from the steering wheel, I find deep inspiration in <strong class="text-warmWhite font-medium">cinematic storytelling and movies</strong>—particularly automotive choreography and atmospheric film scores that mirror the intensity of the cockpit.
+                        </p>
+                    </div>
+
+                    <!-- Quick Stats Grid -->
+                    <div class="grid grid-cols-3 gap-6 pt-6 border-t border-white/10">
+                        <div>
+                            <span class="block text-3xl sm:text-4xl font-black heading-font text-warmWhite">RWD</span>
+                            <span class="text-xs uppercase tracking-wider text-mutedGray">Drift Balance</span>
+                        </div>
+                        <div>
+                            <span class="block text-3xl sm:text-4xl font-black heading-font text-warmWhite">4X4</span>
+                            <span class="text-xs uppercase tracking-wider text-mutedGray">Mud Grit</span>
+                        </div>
+                        <div>
+                            <span class="block text-3xl sm:text-4xl font-black heading-font text-warmWhite">100%</span>
+                            <span class="text-xs uppercase tracking-wider text-mutedGray">Passion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Image Column -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative group">
+                        <!-- Decorative Frame -->
+                        <div class="absolute -inset-2 bg-gradient-to-r from-racingRed to-charcoal opacity-30 rounded-lg blur-sm group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative bg-charcoal p-3 rounded-lg border border-white/10 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1000&auto=format&fit=crop" alt="Hashir Automotive Portrait" class="w-full h-[450px] object-cover rounded filter contrast-110 group-hover:scale-105 transition duration-700">
+                            <!-- Overlay Badge -->
+                            <div class="absolute bottom-6 left-6 bg-obsidian/90 backdrop-blur border border-white/10 px-4 py-3 rounded">
+                                <span class="block text-xs font-bold uppercase tracking-widest text-racingRed">Driver Focus</span>
+                                <span class="text-sm font-semibold tracking-wide text-warmWhite">Precision & Instinct</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Driving Skills Section -->
+    <section id="driving" class="py-28 bg-charcoal border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-8 h-[2px] bg-racingRed"></span>
+                        <span class="text-xs uppercase font-bold tracking-[0.25em] text-mutedGray">SKILLS & DISCIPLINES</span>
+                    </div>
+                    <h2 class="text-4xl sm:text-6xl font-black heading-font uppercase tracking-wide">
+                        MASTERING THE <span class="text-racingRed">MACHINE.</span>
+                    </h2>
+                </div>
+                <p class="text-mutedGray text-sm max-w-md mt-4 md:mt-0 font-light">
+                    Every discipline demands absolute focus, respect for weight transfer, and instinctive reflex behind the wheel.
+                </p>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Skill 1: Drifting -->
+                <div class="custom-card p-8 rounded-lg flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-12 h-12 bg-obsidian border border-white/10 flex items-center justify-center rounded text-racingRed text-xl">
+                                <i class="fa-solid fa-car-side"></i>
+                            </div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-mutedGray">01 / DRIFT</span>
+                        </div>
+                        <h3 class="text-2xl font-bold heading-font uppercase tracking-wide mb-3 text-warmWhite group-hover:text-racingRed transition-colors">
+                            Drifting & Angle Control
+                        </h3>
+                        <p class="text-mutedGray text-sm font-light leading-relaxed mb-6">
+                            Balancing rear-wheel drive physics at the limit of traction. Precision angle control, smooth weight transfers, throttle modulation, and mastering tire smoke dynamics.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-white/10 flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-warmWhite">
+                        <span>Throttle & Steering</span>
+                        <i class="fa-solid fa-arrow-right text-racingRed"></i>
+                    </div>
+                </div>
+
+                <!-- Skill 2: Fast Driving -->
+                <div class="custom-card p-8 rounded-lg flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-12 h-12 bg-obsidian border border-white/10 flex items-center justify-center rounded text-racingRed text-xl">
+                                <i class="fa-solid fa-gauge-high"></i>
+                            </div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-mutedGray">02 / SPEED</span>
+                        </div>
+                        <h3 class="text-2xl font-bold heading-font uppercase tracking-wide mb-3 text-warmWhite group-hover:text-racingRed transition-colors">
+                            High-Speed Agility
+                        </h3>
+                        <p class="text-mutedGray text-sm font-light leading-relaxed mb-6">
+                            Raw speed combined with razor-sharp reflexes. Reading braking zones, maintaining high-speed line composure, and reacting instantaneously to changing tarmac conditions.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-white/10 flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-warmWhite">
+                        <span>Reflex & Focus</span>
+                        <i class="fa-solid fa-arrow-right text-racingRed"></i>
+                    </div>
+                </div>
+
+                <!-- Skill 3: Mud Racing -->
+                <div class="custom-card p-8 rounded-lg flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-12 h-12 bg-obsidian border border-white/10 flex items-center justify-center rounded text-racingRed text-xl">
+                                <i class="fa-solid fa-mountain"></i>
+                            </div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-mutedGray">03 / OFF-ROAD</span>
+                        </div>
+                        <h3 class="text-2xl font-bold heading-font uppercase tracking-wide mb-3 text-warmWhite group-hover:text-racingRed transition-colors">
+                            Mud Racing & Off-Road Grit
+                        </h3>
+                        <p class="text-mutedGray text-sm font-light leading-relaxed mb-6">
+                            Conquering unstable terrain, deep mud pits, and unpredictable traction loss. 4x4 momentum management, throttle steering in slop, and raw mechanical endurance.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-white/10 flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-warmWhite">
+                        <span>Grit & Torque</span>
+                        <i class="fa-solid fa-arrow-right text-racingRed"></i>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Hobbies Section (Movies & Mud Racing Adventures) -->
+    <section id="hobbies" class="py-28 bg-obsidian border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="flex items-center space-x-3 mb-4">
+                <span class="w-8 h-[2px] bg-racingRed"></span>
+                <span class="text-xs uppercase font-bold tracking-[0.25em] text-mutedGray">PASSIONS & INSPIRATIONS</span>
+            </div>
+
+            <h2 class="text-4xl sm:text-6xl font-black heading-font uppercase tracking-wide mb-16">
+                FUELED BY CINEMA <br>& <span class="text-racingRed">OFF-ROAD ADVENTURE.</span>
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                
+                <!-- Hobby 1: Movies & Cinematic Inspiration -->
+                <div class="relative bg-charcoal border border-white/10 rounded-lg overflow-hidden p-8 sm:p-12 group">
+                    <div class="absolute -right-10 -bottom-10 text-white/5 text-9xl font-black heading-font pointer-events-none">
+                        FILM
+                    </div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-obsidian border border-white/10 rounded flex items-center justify-center text-racingRed text-2xl mb-8">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <span class="text-xs uppercase font-bold tracking-widest text-mutedGray">CINEMATIC INSPIRATION</span>
+                        <h3 class="text-3xl font-bold heading-font uppercase tracking-wide my-3 text-warmWhite">
+                            Movies & Car Chase Choreography
+                        </h3>
+                        <p class="text-mutedGray text-base font-light leading-relaxed mb-6">
+                            My passion for driving is deeply intertwined with cinema. I am fascinated by classic and modern car chase choreography, atmospheric sound design, and the visual language of speed on film. Movies shape how I visualize motion, lighting, and narrative tension behind the wheel.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-obsidian border border-white/10 px-3 py-1 text-xs text-mutedGray rounded">Cinematic Lighting</span>
+                            <span class="bg-obsidian border border-white/10 px-3 py-1 text-xs text-mutedGray rounded">Chase Sequences</span>
+                            <span class="bg-obsidian border border-white/10 px-3 py-1 text-xs text-mutedGray rounded">Automotive Artistry</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby 2: Mud Racing Adventures -->
+                <div class="relative bg-charcoal border border-white/10 rounded-lg overflow-hidden p-8 sm:p-12 group">
+                    <div class="absolute -right-10 -bottom-10 text-white/5 text-9xl font-black heading-font pointer-events-none">
+                        MUD
+                    </div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-obsidian border border-white/10 rounded flex items-center justify-center text-racingRed text-2xl mb-8">
+                            <i class="fa-solid fa-truck-monster"></i>
+                        </div>
+                        <span class="text-xs uppercase font-bold tracking-widest text-mutedGray">OFF-ROAD ADVENTURE</span>
+                        <h3 class="text-3xl font-bold heading-font uppercase tracking-wide my-3 text-warmWhite">
+                            Mud Racing & Weekend Grit
+                        </h3>
+                        <p class="text-mutedGray text-base font-light leading-relaxed mb-6">
+                            When I'm not sliding around tarmac on drift circuits, I seek out the muddy trails and off-road tracks. Mud racing is raw, unpretentious, and demands complete mechanical synchronization with 4x4 power, mud-terrain tires, and high-torque execution.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-obsidian border border-white/10 px-3 py-1 text-xs text-mutedGray rounded">4x4 Torque</span>
+                            <span class="bg-obsidian border border-white/10 px-3 py-1 text-xs text-mutedGray rounded">Trail Dominance</span>
+                            <span class="bg-obsidian border border-white/10 px-3 py-1 text-xs text-mutedGray rounded">Mechanical Grit</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-28 bg-charcoal border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-8 h-[2px] bg-racingRed"></span>
+                        <span class="text-xs uppercase font-bold tracking-[0.25em] text-mutedGray">VISUAL ARCHIVE</span>
+                    </div>
+                    <h2 class="text-4xl sm:text-6xl font-black heading-font uppercase tracking-wide">
+                        MOMENTS IN <span class="text-racingRed">MOTION.</span>
+                    </h2>
+                </div>
+                <p class="text-mutedGray text-sm max-w-md mt-4 md:mt-0 font-light">
+                    A curated glimpse into high-angle drifts, cinematic car framing, and rugged mud tracks.
+                </p>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Gallery Item 1 -->
+                <div class="relative group overflow-hidden rounded-lg bg-obsidian border border-white/10 h-80 cursor-pointer gallery-item" data-img="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=1400&auto=format&fit=crop" data-title="Drift Angle Precision">
+                    <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=1000&auto=format&fit=crop" alt="Drift Action" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 filter contrast-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-racingRed block mb-1">Drift Session</span>
+                        <h4 class="text-xl font-bold heading-font uppercase text-warmWhite">Angle & Smoke</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div class="relative group overflow-hidden rounded-lg bg-obsidian border border-white/10 h-80 cursor-pointer gallery-item" data-img="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1400&auto=format&fit=crop" data-title="Cinematic Highway Runner">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1000&auto=format&fit=crop" alt="Fast Driving" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 filter contrast-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-racingRed block mb-1">High Speed</span>
+                        <h4 class="text-xl font-bold heading-font uppercase text-warmWhite">Night Pursuit</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="relative group overflow-hidden rounded-lg bg-obsidian border border-white/10 h-80 cursor-pointer gallery-item" data-img="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1400&auto=format&fit=crop" data-title="Off-Road Mud Grit">
+                    <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1000&auto=format&fit=crop" alt="Mud Racing" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 filter contrast-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-racingRed block mb-1">Mud Racing</span>
+                        <h4 class="text-xl font-bold heading-font uppercase text-warmWhite">Deep Pit Power</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div class="relative group overflow-hidden rounded-lg bg-obsidian border border-white/10 h-80 cursor-pointer gallery-item" data-img="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1400&auto=format&fit=crop" data-title="Cockpit Focus">
+                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1000&auto=format&fit=crop" alt="Cockpit View" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 filter contrast-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-racingRed block mb-1">Driver View</span>
+                        <h4 class="text-xl font-bold heading-font uppercase text-warmWhite">Analog Dashboard</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="relative group overflow-hidden rounded-lg bg-obsidian border border-white/10 h-80 cursor-pointer gallery-item" data-img="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1400&auto=format&fit=crop" data-title="Aerodynamic Lines">
+                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1000&auto=format&fit=crop" alt="Performance Car" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 filter contrast-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-racingRed block mb-1">Aesthetics</span>
+                        <h4 class="text-xl font-bold heading-font uppercase text-warmWhite">Sculpted Form</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div class="relative group overflow-hidden rounded-lg bg-obsidian border border-white/10 h-80 cursor-pointer gallery-item" data-img="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=1400&auto=format&fit=crop" data-title="Cinematic Twilight">
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=1000&auto=format&fit=crop" alt="Twilight Drive" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 filter contrast-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-racingRed block mb-1">Atmosphere</span>
+                        <h4 class="text-xl font-bold heading-font uppercase text-warmWhite">Golden Hour Speed</h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-obsidian/95 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-warmWhite text-3xl hover:text-racingRed transition-colors focus:outline-none">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="max-w-5xl w-full flex flex-col items-center">
+            <img id="lightbox-img" src="" alt="Enlarged View" class="max-h-[75vh] object-contain rounded border border-white/10 shadow-2xl mb-4">
+            <h3 id="lightbox-title" class="text-2xl font-bold heading-font uppercase tracking-wide text-warmWhite"></h3>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-28 bg-obsidian border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                
+                <!-- Left Info Column -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <span class="w-8 h-[2px] bg-racingRed"></span>
+                            <span class="text-xs uppercase font-bold tracking-[0.25em] text-mutedGray">GET IN TOUCH</span>
+                        </div>
+                        <h2 class="text-4xl sm:text-6xl font-black heading-font uppercase tracking-wide">
+                            LET'S TALK <br><span class="text-racingRed">DRIVING.</span>
+                        </h2>
+                    </div>
+
+                    <p class="text-mutedGray text-base font-light leading-relaxed">
+                        Whether you want to discuss driving lines, drift setups, cinematic film recommendations, or collaborate on an automotive project, my inbox is open.
+                    </p>
+
+                    <div class="space-y-6 pt-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-charcoal border border-white/10 rounded flex items-center justify-center text-racingRed">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs uppercase font-bold tracking-widest text-mutedGray">Direct Email</span>
+                                <span class="text-warmWhite font-medium">hashir@driverportfolio.com</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-charcoal border border-white/10 rounded flex items-center justify-center text-racingRed">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs uppercase font-bold tracking-widest text-mutedGray">Base Location</span>
+                                <span class="text-warmWhite font-medium">Global / Track & Circuit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="flex space-x-4 pt-4">
+                        <a href="#contact" class="w-12 h-12 bg-charcoal border border-white/10 rounded flex items-center justify-center text-warmWhite hover:bg-racingRed hover:border-racingRed transition-colors">
+                            <i class="fa-brands fa-instagram text-lg"></i>
+                        </a>
+                        <a href="#contact" class="w-12 h-12 bg-charcoal border border-white/10 rounded flex items-center justify-center text-warmWhite hover:bg-racingRed hover:border-racingRed transition-colors">
+                            <i class="fa-brands fa-youtube text-lg"></i>
+                        </a>
+                        <a href="#contact" class="w-12 h-12 bg-charcoal border border-white/10 rounded flex items-center justify-center text-warmWhite hover:bg-racingRed hover:border-racingRed transition-colors">
+                            <i class="fa-brands fa-x-twitter text-lg"></i>
+                        </a>
+                        <a href="#contact" class="w-12 h-12 bg-charcoal border border-white/10 rounded flex items-center justify-center text-warmWhite hover:bg-racingRed hover:border-racingRed transition-colors">
+                            <i class="fa-brands fa-discord text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Form Column -->
+                <div class="lg:col-span-7 bg-charcoal p-8 sm:p-12 rounded-lg border border-white/10">
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase font-bold tracking-widest text-mutedGray mb-2">Your Name</label>
+                                <input type="text" id="name" required class="w-full bg-obsidian border border-white/10 rounded px-4 py-3.5 text-warmWhite placeholder:text-mutedGray/50 focus:outline-none focus:border-racingRed transition-colors" placeholder="Alex Turner">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase font-bold tracking-widest text-mutedGray mb-2">Your Email</label>
+                                <input type="email" id="email" required class="w-full bg-obsidian border border-white/10 rounded px-4 py-3.5 text-warmWhite placeholder:text-mutedGray/50 focus:outline-none focus:border-racingRed transition-colors" placeholder="alex@example.com">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase font-bold tracking-widest text-mutedGray mb-2">Subject / Interest</label>
+                            <select id="subject" class="w-full bg-obsidian border border-white/10 rounded px-4 py-3.5 text-warmWhite focus:outline-none focus:border-racingRed transition-colors">
+                                <option>General Inquiry</option>
+                                <option>Drifting & Driving Discussion</option>
+                                <option>Mud Racing & Off-Road</option>
+                                <option>Film & Cinematic Collaboration</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase font-bold tracking-widest text-mutedGray mb-2">Message</label>
+                            <textarea id="message" rows="5" required class="w-full bg-obsidian border border-white/10 rounded px-4 py-3.5 text-warmWhite placeholder:text-mutedGray/50 focus:outline-none focus:border-racingRed transition-colors" placeholder="Tell me about your automotive passion or inquiry..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-racingRed hover:bg-racingRedHover text-warmWhite py-4 text-xs font-bold uppercase tracking-widest transition-all shadow-lg shadow-racingRed/20 flex items-center justify-center space-x-2">
+                            <span>Send Transmission</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-obsidian border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+            <div class="text-2xl font-black heading-font tracking-widest text-warmWhite">
+                HASHIR<span class="text-racingRed">.</span>
+            </div>
+            <p class="text-xs text-mutedGray tracking-wider uppercase">
+                © 2026 HASHIR. Built for the drive. All rights reserved.
+            </p>
+            <div class="flex space-x-6 text-xs uppercase tracking-wider text-mutedGray">
+                <a href="#home" class="hover:text-warmWhite transition-colors">Privacy</a>
+                <a href="#home" class="hover:text-warmWhite transition-colors">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Gallery Lightbox Modal
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxClose = document.getElementById('lightbox-close');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.getAttribute('data-img');
+                const imgTitle = item.getAttribute('data-title');
+                lightboxImg.src = imgSrc;
+                lightboxTitle.textContent = imgTitle;
+                lightbox.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        const closeLightbox = () => {
+            lightbox.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        };
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Contact Form Submission Simulation
+        const contactForm = document.getElementById('contact-form');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            
+            toastMsg.textContent = `Transmission received from ${name}. I will connect with you soon.`;
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            
+            contactForm.reset();
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-32', 'opacity-0');
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
